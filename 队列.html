@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>队列</title>
+</head>
+
+<body>
+    <script>
+        function Queue() {
+            this.dataStor = [];
+            this.enqueue = enqueue; //向队尾增加一个元素
+            this.dequeue = dequeue; //删除队首元素
+            this.front = front;     //读取队首的元素
+            this.back = back;       //读取队尾的元素
+            this.toString = toString;//显示队列中的所有元素
+            this.empty = empty;     //判断队列是否为空
+        }
+
+        function enqueue(element) {
+            this.dataStor.push(element);
+        }
+
+        function dequeue() {
+           return this.dataStor.shift();
+        }
+
+        function front() {
+            return this.dataStor[0]
+        }
+
+        function back() {
+            return this.dataStor[this.dataStor.length - 1]
+        }
+
+        function empty() {
+            if (this.dataStor.length == 0) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+        function toString() {
+            var reStr = "";
+            for (var i = 0; i < this.dataStor.length; i++) {
+                reStr += this.dataStor[i] + "\n";
+            }
+            return reStr;
+        }
+
+
+        // var q=new Queue();
+        // q.enqueue("小明");
+        // q.enqueue("小王");
+        // q.enqueue("小红");
+        // console.log(q.toString())
+        // q.dequeue();
+        // console.log("出队后 \n"+q.toString())
+
+        // 实现舞伴分配问题
+        // var manDancers=new Queue();
+        // manDancers.enqueue("小明");
+        // manDancers.enqueue("小王");
+
+        // var womanDancers=new Queue();
+        // womanDancers.enqueue("小红");
+        // womanDancers.enqueue("翠花");
+        // function getDancers(){
+        //     return "♂"+manDancers.dequeue()+"♀"+womanDancers.dequeue()
+        // }
+        // console.warn("第一队舞伴"+getDancers());
+        // console.warn("第二队舞伴"+getDancers())
+
+
+        function Patient(name,code){
+            this.name =name;
+            this.code =code;
+        }
+
+        function dequeue(){
+            var priority=0;
+            for(var i=1;i<this.dataStor.length;i++){
+                if(this.dataStor[i].code>this.dataStor[priority].code){
+                    priority=i;
+                }
+            }
+            return this.dataStor.splice(priority,1);
+        }
+
+        function toString(){
+            var reStr = "";
+            for (var i = 0; i < this.dataStor.length; ++i) {
+                reStr += this.dataStor[i].name + "code:"+this.dataStor[i].code+"\n";
+            }
+            return reStr;
+        }
+
+        var pa=new Patient("小明",1);
+        var pa1=new Patient("小红",5);
+        var pa2=new Patient("小张",8);
+        var pa3=new Patient("小李",2);
+        var pa4=new Patient("小王",9);
+        var pa5=new Patient("小刚",3);
+
+        var quePatient=new Queue();
+        quePatient.enqueue(pa);
+        quePatient.enqueue(pa1);
+        quePatient.enqueue(pa2);
+        quePatient.enqueue(pa3);
+        quePatient.enqueue(pa4);
+        quePatient.enqueue(pa5);
+
+
+        console.log("第一个出队的是"+quePatient.dequeue());
+        console.log("剩余的"+quePatient.toString())
+    </script>
+</body>
+
+</html>
