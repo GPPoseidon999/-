@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>散列</title>
+</head>
+<body>
+    <script>
+     function HashTable(){
+         this.table=new Array(137);
+         this.simpleHash=simpleHash;
+         this.showDistro=showDistro;
+         this.put=put;
+         this.get=get;
+         this.betterHash=betterHash;
+         this.buildChians=buildChians;
+     }
+     //创建二维数组解决碰撞
+     function buildChians(){
+         for(var i=0;i<this.table.length;i++){
+             this.table[i]=new Array();
+         }
+     }
+     function simpleHash(data){
+         var total=0;
+         for(var i=0;i<data.length;i++){
+             total+=data.charCodeAt(i);
+         }
+         return total % this.table.length;
+     }
+
+     function betterHash(data){
+         var H=31;
+         var total=0;
+         for(var i=0;i<data.length;i++){
+             total+=H*total+data.charCodeAt(i);
+         }
+         if(total<0){
+             total+=this.table.length-1;
+         }
+         return total % this.table.length;
+
+     }
+
+     function put(data){
+         var pos=this.simpleHash(data);
+         //var pos=this.betterHash(data); //高级散列函数
+         //this.table[pos]=data;
+
+        //线性探测法
+        if(this.table[pos]==undefined){
+            this.table[pos]==data;
+        }else{
+            while(this.table[pos]!=undefined){
+                pos++;
+            }
+            this.table[pos]=data;
+        }
+
+
+
+
+        //二维数组
+        // var index=0;
+        //  if(this.table[pos][index]==undefined){
+        //      this.table[pos][index]=data;
+        //      index++;
+        //  }else{
+        //      while(this.table[pos][index]!=undefined){
+        //          ++index;
+        //      }
+        //      this.table[pos][index]=data;
+        //  }
+     }
+     function get(key){
+        //线性探测
+         var hash=this.simpleHash(key);
+         console.log("这是hash"+hash);
+         for(var i=hash;i<this.table.length;i++){
+            if(this.table[i]==key){
+                return i;
+            } 
+         }
+         return undefined;
+
+        // return this.table[this.simpleHash(key)]
+     }
+
+     function showDistro(){
+         var n=0;
+         for(var i=0;i<this.table.length;i++){
+             if(this.table[i][0]!=undefined){
+                 console.log("键值是->>"+i+"值是【"+this.table[i]+"】")
+             }
+         }
+     }
+
+     var hTable= new HashTable();
+     hTable.buildChians();
+     hTable.put("china");
+     hTable.put("Japan");
+     hTable.put("America");
+     hTable.put("nicha")
+    //  hTable.put("56566");
+    //  hTable.put("23154");
+    //  hTable.put("98534");
+    //  hTable.put("35795");
+    console.log("nicha的位置"+hTable.get('nicha'))
+     hTable.showDistro()
+    </script>
+</body>
+</html>
